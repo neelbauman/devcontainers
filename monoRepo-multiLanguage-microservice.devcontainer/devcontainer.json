@@ -1,0 +1,65 @@
+// .devcontainer/devcontainer.json
+
+{
+    "name": "Dev Environment",
+
+    "build": {
+        "dockerfile": "Dockerfile",
+        // build時に環境変数などを渡す必要がある場合は、ここで設定します
+        // "args": { "NODE_VERSION": "20" }
+    },
+
+    // ワークスペースに自動でインストールされるVS Code拡張機能
+    // チームメンバー全員が同じ環境で開発できます
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "esbenp.prettier-vscode", // コードフォーマッター
+                "dbaeumer.vscode-eslint", // リンター
+                "ms-python.python", // Pythonサポート
+                "ms-vscode.typescript-language-features", // TypeScript/JavaScriptサポート (通常デフォルトで有効ですが念のため)
+                "vscode-icons-team.vscode-icons" // ファイルアイコン
+            ],
+            // VS Codeの設定をコンテナ内に適用
+            "settings": {
+                "editor.formatOnSave": true,
+                "editor.defaultFormatter": "esbenp.prettier-vscode",
+                "[python]": {
+                    "editor.defaultFormatter": "ms-python.black-formatter",
+                    "editor.codeActionsOnSave": {
+                        "source.organizeImports": "explicit"
+                    }
+                }
+            }
+        }
+    },
+
+    // コンテナ起動時に自動でフォワーディングされるポート
+    // 例えば、フロントエンド (3000) とバックエンド API (8080) など
+    "forwardPorts": [3000, 8080],
+
+    // コンテナに割り当てるユーザー (セキュリティのベストプラクティス)
+    "remoteUser": "vscode",
+
+    // コンテナ作成後に一度だけ実行されるコマンド
+    // 依存関係のインストールなどに使います (例: npm install, pip install -r requirements.txt)
+    // ワークスペースのルートディレクトリで実行されます
+    "postCreateCommand": "npm install && pip install -r requirements.txt",
+
+    // VS Codeのターミナルで実行するデフォルトシェルを設定
+    "containerEnv": {
+        "SHELL": "/bin/bash"
+    }
+    
+    // ホストのDockerデーモンをコンテナ内で利用したい場合にマウントします。
+    // コンテナ内でDockerコマンドを実行したい場合に必要です。
+    // "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
+
+    // 必要に応じて、開発時に必要なサービス（データベースなど）をDocker Composeで定義できます。
+    // "dockerComposeFile": "docker-compose.yml",
+    // "service": "dev-service-name",
+
+    // ワークスペースをマウントするコンテナ内のパス (通常はデフォルトで問題ありません)
+    // "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+    // "workspaceFolder": "/workspace"
+}

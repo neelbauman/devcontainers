@@ -1,0 +1,19 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/base:debian",
+
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installGit": true
+    },
+    "ghcr.io/devcontainers/features/neovim:1": {
+      "version": "stable"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    },
+    "ghcr.io/devcontainers/features/uv:1": {
+      "version": "latest"
+    }
+  },
+  "postCreateCommand": "bash -c \"$(curl -fsSL 'https://raw.githubusercontent.com/neelbauman/dotfiles/refs/heads/main/install.sh')\""
+}
